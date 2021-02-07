@@ -6,7 +6,9 @@ Unlike any other country, the Monetary Authority of Singapore runs a exchange-ra
 There are four sources of uncertainty into the MAS exchange rate police:
 
 > (1) Daily vaule of the SNEER
+
 > (2) Slope of the SNNER
+
 > (3) Bands of the SNEER
 
 This project seeks to adress this issues in the following steps:
