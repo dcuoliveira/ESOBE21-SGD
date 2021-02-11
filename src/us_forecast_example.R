@@ -26,7 +26,7 @@ summary(mfbvar_prior)
 
 ## Compute posteriors:
 ### 1. estimate_mfbvar
-mod_ss_iw = estimate_mfbvar(pmfbvar_prior = mfbvar_prior,
+mod_ss_iw = estimate_mfbvar(mfbvar_prior = mfbvar_prior,
                             prior = "ss",
                             variance = "iw")
 mod_ssng_iw = estimate_mfbvar(mfbvar_prior = mfbvar_prior, 
@@ -34,8 +34,11 @@ mod_ssng_iw = estimate_mfbvar(mfbvar_prior = mfbvar_prior,
                               variance = "iw")
 
 ## Process output: 
-### 1. plot-mfbvar
-### 2. varplot
-### 3. predict.mfbvar
+### 1. plot
+plot(mod_ss_iw, plot_start = "2010-01-01", nrow_facet = 3)
+plot(mod_ssng_iw, plot_start = "2010-01-01", nrow_facet = 3)
+
+### 2. predict.mfbvar
+predict(mod_ss_iw, pred_bands = 0.8)
 
 
