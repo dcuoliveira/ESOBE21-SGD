@@ -13,9 +13,9 @@ There are four sources of uncertainty into the MAS exchange rate police:
 
 This project seeks to adress this issues in the following steps:
 
-> (1) Build a MF-BVAR to connect the daily value of the FX data of the major partners of Singapore to make a daily predictions of SNEER as long as the best weekly predictions of the same index
+> (1) Build a MF-BVAR to connect the daily value of the FX data of the major trade partners of Singapore to make daily predictions of SNEER as long as the best weekly predictions of the same index
 
-> (2) Address the problem os estimating the Bands of the SNEER as a function of the volatility of the FX of Singapore major trade partners major 
+> (2) Address the problem of estimating the Bands of the SNEER
 
 
 # References
