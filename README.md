@@ -1,4 +1,4 @@
-# SGD-MF-BVAR
+# ESOBE21-SGD
 This project aims to implement a Mixed-Frequency Bayesian VAR (MF-BVAR) model to the problem of predicting the Singapore Nominal Effective Exchange Rate (SNEER).
 
 Unlike any other country, the Monetary Authority of Singapore runs a exchange-rate centered monetary police, in which the SNEER is the intermediate target of monetary police. The MAS makes regular interventions on the FX market to ensure that the SNEER stays within a band only known to the MAS. This inteventions guarantees mediun-term price stability on the SNEER. The SNEER is a weekly variable which is known to be a  trade-weighted  basket  of  currencies of Singapore major trade partners. On the other hand, the exchange rates of the countries within the SNEER have higher frequancy data, which can be used for prediction.
