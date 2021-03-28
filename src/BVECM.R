@@ -3,6 +3,7 @@ library('bvartools')
 library('here')
 library('xts')
 library('lubridate')
+library('dplyr')
 source(here('src', 'utils.R'))
 
 #### BVECM STRUCTURE ####
@@ -30,14 +31,15 @@ data = add_priors(data,
                   sigma = list(df = 0, scale = .0001))
 
 #### POSTERIORS ####
-out_posteriors = posteriors_draws_koopetal2010(data=data)
+# out_posteriors = posteriors_draws_koopetal2010(data=data)
+start = Sys.time()
 package_posteriors = draw_posterior(data)
+print(Sys.time() - start)
 
 # Generate bvec object
 bvec_est = bvec(y = data$data$Y,
                 w = data$data$W,
                 x = data$data$X,
-                x_d = data$data$X[, -(1:6)],
                 Pi = out_posteriors$draws_pi,
                 Gamma = out_posteriors$draws_gamma[1:out_posteriors$k_nondet,],
                 C = out_posteriors$draws_gamma[(out_posteriors$k_nondet + 1):nrow(out_posteriors$draws_gamma),],
