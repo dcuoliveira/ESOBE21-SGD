@@ -8,12 +8,13 @@ library('here')
 source(here('src', 'utils.R'))
 
 data = merge_fx_sneer_data()
+data_orig = data %>% select(-date)
 date = data$date
-data =  data %>% select(-date)apply(data, 2, function(x) scale(x)) %>% as.data.frame()
+data =  data %>% select(-date) %>% apply(data, 2, function(x) scale(x)) %>% as.data.frame()
 
 # Bayesian normal linear regression with normal priors
 bnlr = stan_glm(SGD ~ KRW + MYR + CNY + THB + IDR + TWD +
-                      INR + JPY + EUR + AUD + GBP, data=data, seed=2294)
+                      INR + JPY + EUR + AUD + GBP, data=data_orig, seed=2294)
 print(bnlr, digits = 3)
 
 # Posterior of the parameters
@@ -36,11 +37,24 @@ describe_posterior(bnlr)
 post = get_parameters(bnlr)
 print(map_dbl(post, map_estimate),digits = 3)
 
-plot(date, bnlr$residuals, type = 'l', col = 'red')
+fitted_df = data.frame(date=date,
+                       realsgd=data_orig$SGD,
+                       fittedsgd=bnlr$fitted.values,
+                       rollingmean=rollapply(bnlr$fitted.values, 30, mean, fill=NA),
+                       rollingstd=rollapply(bnlr$fitted.values, 30, sd, fill=NA),
+                       cointerror=bnlr$residuals)
+
+plot(fitted_df$date, fitted_df$cointerror, type = 'l', col = 'red')
 par(new = 'T')
-plot(date, bnlr$fitted.values, type = 'l', col = 'black')
+plot(fitted_df$date, fitted_df$fittedsgd, type = 'l', col = 'black')
 par(new = 'T')
-plot(date, data$SGD, type = 'l', col = 'blue')
+plot(fitted_df$date, fitted_df$realsgd, type = 'l', col = 'blue')
+par(new = 'T')
+plot(fitted_df$date, fitted_df$rollingmean + 2*fitted_df$rollingstd, type = 'l', col = 'green')
+par(new = 'T')
+plot(fitted_df$date, fitted_df$rollingmean - 2*fitted_df$rollingstd, type = 'l', col = 'green')
+
+
 PP.test(bnlr$residuals)
 
 # Highest density interval
