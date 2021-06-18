@@ -1,4 +1,22 @@
 library('padr')
+library('lubridate')
+library('zoo')
+
+polycreate = function(x,
+                      order){
+  y = 0
+  for (p in 1:order){
+    y = y + x^p
+  }
+  return(y)
+}
+
+h_epsilon_poly = function(epsilon,
+                          p){
+  return(polycreate(x=epsilon,
+                    p=p))
+
+}
 
 data_frame_to_ts_list = function(df,
                                  freq_vec){
