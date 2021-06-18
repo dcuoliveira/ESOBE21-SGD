@@ -28,7 +28,7 @@ epsilon_h0 = 1 - phi_h0
 # equal to the lowest order term in h1
 
 
-cond_marg_like_phi1 = numDeriv(sqrt(h1_epsilon_poly / h2_epsilon_poly)
+cond_marg_like_phi1 = numDeriv(sqrt(h1_epsilon_poly / h2_epsilon_poly))
 
 
 
