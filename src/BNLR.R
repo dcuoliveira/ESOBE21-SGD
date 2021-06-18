@@ -10,7 +10,7 @@ source(here('src', 'utils.R'))
 data = merge_fx_sneer_data()
 data_orig = data %>% select(-date)
 date = data$date
-data =  data %>% select(-date) %>% apply(data, 2, function(x) scale(x)) %>% as.data.frame()
+data =  data %>% select(-date) %>% apply(2, function(x) scale(x)) %>% as.data.frame()
 
 # Bayesian normal linear regression with normal priors
 bnlr = stan_glm(SGD ~ KRW + MYR + CNY + THB + IDR + TWD +
