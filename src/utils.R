@@ -2,6 +2,38 @@ library('padr')
 library('lubridate')
 library('zoo')
 
+gen_Y_rho_xi = function(Y_t,
+                        k){
+  T = length(Y_t)
+  Y_rho_xi = Y_t[k+1:T]
+  
+  return(Y_rho_xi)
+}
+
+gen_X_rho_xi = function(R_t,
+                        k) {
+  #########
+  # R_t: Original model residual vector
+  # type: double (vector)
+  # k: Number of autorergessive terms to consider in th coint. test
+  # type: double (scalar)
+  #########
+  T = length(R_t)
+  X_rho_xi = matrix(data=NA,
+                    nrow=k,
+                    ncol=T-k)
+  for (i in 1:k) {
+    if (i == 1){
+      X_rho_xi[i,] = R_t[k:T-k]
+    }
+    else{
+      # Generalizar para mais termos autoregressivos
+      next
+    }
+  }
+  return(X_rho_xi)
+}
+
 polycreate = function(x,
                       order){
   y = 0

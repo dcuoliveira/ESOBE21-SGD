@@ -5,7 +5,6 @@ library('bayesplot')
 library('purrr')
 library('insight')
 library('here')
-library('dplyr')
 source(here('src', 'utils.R'))
 
 data = merge_fx_sneer_data()
