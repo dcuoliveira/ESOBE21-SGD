@@ -2,10 +2,49 @@ library('padr')
 library('lubridate')
 library('zoo')
 
+gen_X_beta_2 = function(X_t,
+                        k,
+                        n,
+                        rho,
+                        xi=NULL) {
+  #########
+  # X_t: Original model residual vector
+  # type: double (vector)
+  # k: Number of autorergessive terms
+  # type: double (scalar)
+  # n: Number of covariates
+  # type: double (scalar)
+  #########
+  
+  T = length(X_t)
+  deltaX_t = diff(X_t)
+  X_beta_2 = matrix(data=NA,
+                    nrow=n-1,
+                    ncol=T-k)
+  for (t in 1:(T-k)) {
+    if (k == 1){
+      X_beta_2[,j] = rho * X_t[t+k-1,] + 0
+    }
+    else{
+      X_beta_2[,j] = rho * X_t[t+k-1,] + xi %*% t(diff(deltaX_t)) # checar aqui
+    }
+  }
+  return(X_beta_2)
+}
+
 gen_Y_rho_xi = function(Y_t,
                         k){
+  #########
+  # Y_t: Response variable data
+  # type: double (vector)
+  # k: Number of autorergessive terms
+  # type: double (scalar)
+  #########
+  
   T = length(Y_t)
-  Y_rho_xi = Y_t[k+1:T]
+  j = k+1
+  
+  Y_rho_xi = Y_t[j:T]
   
   return(Y_rho_xi)
 }
@@ -15,21 +54,22 @@ gen_X_rho_xi = function(R_t,
   #########
   # R_t: Original model residual vector
   # type: double (vector)
-  # k: Number of autorergessive terms to consider in th coint. test
+  # k: Number of autorergessive terms
   # type: double (scalar)
   #########
+  
   T = length(R_t)
+  deltaR_t = c(NA, diff(R_t))
   X_rho_xi = matrix(data=NA,
                     nrow=k,
                     ncol=T-k)
-  for (i in 1:k) {
-    if (i == 1){
-      X_rho_xi[i,] = R_t[k:T-k]
-    }
-    else{
-      # Generalizar para mais termos autoregressivos
-      next
-    }
+  browser()
+  j=1
+  for (i in k:2) {
+    end = T-j
+    X_rho_xi[j,] = R_t[i:end]
+    X_rho_xi[j+1,] = deltaR_t[(i+1):end]
+    j = j + 1
   }
   return(X_rho_xi)
 }
