@@ -2,76 +2,52 @@ library('padr')
 library('lubridate')
 library('zoo')
 
-gen_X_beta_2 = function(X_t,
-                        k,
-                        n,
-                        rho,
-                        xi=NULL) {
-  #########
-  # X_t: Original model residual vector
-  # type: double (vector)
-  # k: Number of autorergessive terms
-  # type: double (scalar)
-  # n: Number of covariates
-  # type: double (scalar)
-  #########
-  
-  T = length(X_t)
-  deltaX_t = diff(X_t)
-  X_beta_2 = matrix(data=NA,
-                    nrow=n-1,
-                    ncol=T-k)
-  for (t in 1:(T-k)) {
-    if (k == 1){
-      X_beta_2[,j] = rho * X_t[t+k-1,] + 0
+gen_Y_rho_psi = function(phi_post,
+                         Yt,
+                         delta_Yt,
+                         t,
+                         k){
+  y_beta2 <- matrix(0, nrow = 1, ncol = (t-k))
+  for(i in 1:(t-k)){
+    aux <- 0
+    aux <- phi_post[1]*Yt[(i+k-1)]
+    for(j in 1:(k-1)){
+      aux <-  aux + phi_post[(j+1)]*delta_Yt[(i+k-j)]
     }
-    else{
-      X_beta_2[,j] = rho * X_t[t+k-1,] + xi %*% t(diff(deltaX_t)) # checar aqui
-    }
+    
+    y_beta2[,i] <- aux
   }
-  return(X_beta_2)
+  return(y_beta2)
 }
 
-gen_Y_rho_xi = function(Y_t,
+gen_X_beta2 = function(phi_post,
+                       Xt,
+                       delta_Xt,
+                       t,
+                       k) {
+  x_beta2 <- matrix(0, nrow = 2, ncol = (t-k))
+  for(i in 1:(t-k)){
+    aux <- 0
+    
+    aux <- phi_post[1]*Xt[,(i+k-1)]
+    for(j in 1:(k-1)){
+      aux <-  aux + phi_post[(j+1)]*delta_Xt[,(i+k-j)]
+    }
+    x_beta2[,i] <- aux
+  }
+  return(x_beta2)
+}
+
+gen_X_rho_xi = function(Rt,
+                        delta_Rt,
                         k){
-  #########
-  # Y_t: Response variable data
-  # type: double (vector)
-  # k: Number of autorergessive terms
-  # type: double (scalar)
-  #########
-  
-  T = length(Y_t)
-  j = k+1
-  
-  Y_rho_xi = Y_t[j:T]
-  
-  return(Y_rho_xi)
-}
-
-gen_X_rho_xi = function(R_t,
-                        k) {
-  #########
-  # R_t: Original model residual vector
-  # type: double (vector)
-  # k: Number of autorergessive terms
-  # type: double (scalar)
-  #########
-  
-  T = length(R_t)
-  deltaR_t = c(NA, diff(R_t))
-  X_rho_xi = matrix(data=NA,
-                    nrow=k,
-                    ncol=T-k)
-  browser()
-  j=1
-  for (i in k:2) {
-    end = T-j
-    X_rho_xi[j,] = R_t[i:end]
-    X_rho_xi[j+1,] = deltaR_t[(i+1):end]
-    j = j + 1
+  #Creating X matrix
+  x_vec <- c(Rt[k:(t-1)])
+  for(i in k:2){
+    aux <- delta_Rt[i:(t+1-i)]
+    x_vec <- c(x_vec,aux)
   }
-  return(X_rho_xi)
+  return(matrix(x_vec, nrow = k, byrow = T))
 }
 
 polycreate = function(x,
