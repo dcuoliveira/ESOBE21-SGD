@@ -1,7 +1,7 @@
 rm(list=ls())
 
 library('here')
-source(here('src/samplers.R'))
+source(here('src','samplers.R'))
 
 set.seed(4567)
 
