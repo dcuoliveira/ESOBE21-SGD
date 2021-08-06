@@ -34,12 +34,12 @@ for(i in 1:t){
   Rt[i] <- (y[i] - beta%*%as.matrix(c(x1[i],x2[i])))
 }
 
-sample_list_out = ARp_coint_test_gibbs_sampler(Yt=y,
-                                               Xt=t(as.matrix(cbind(x1, x2))),
-                                               Rt=Rt,
-                                               npost=npost,
-                                               k=k,
-                                               t=t)
+sample_list_out = ARp_resid_coint_test_gibbs_sampler(Yt=y,
+                                                     Xt=t(as.matrix(cbind(x1, x2))),
+                                                     Rt=Rt,
+                                                     npost=npost,
+                                                     k=k,
+                                                     t=t)
 beta_list=sample_list_out$beta_list
 phi_list=sample_list_out$phi_list
 sigma_list=sample_list_out$sigma_list
