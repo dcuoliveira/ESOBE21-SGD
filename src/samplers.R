@@ -34,8 +34,7 @@ ARp_resid_coint_test_gibbs_sampler = function(Yt,
                               mu = solve(X_rho_xi%*%t(X_rho_xi)) %*% X_rho_xi %*% Y_rho_xi,
                               Sigma = sigma2 * solve(X_rho_xi %*% t(X_rho_xi)))
 
-    ##### Generalizaar aqui
-    delta_Xt <- t(rbind(c(0,0), diff(t(Xt))))
+    delta_Xt <- t(rbind(rep(0, k), diff(t(Xt))))
     X_beta2 = gen_X_beta2(phi_post=phi_post,
                            Xt=Xt,
                            delta_Xt=delta_Xt,
