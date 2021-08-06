@@ -18,8 +18,8 @@ bnlr = stan_glm(SGD ~ KRW + MYR + CNY + THB + IDR + TWD +
 Yt = bnlr$data$SGD
 Xt = bnlr$data %>% select(KRW, MYR, CNY, THB, IDR, TWD, INR, JPY, EUR, AUD, GBP) %>% t()
 Rt = bnlr$residuals
-t = dim(Xt)[1]
-k = dim(Xt)[2]
+t = dim(Xt)[2]
+k = dim(Xt)[1]
 npost = 5000
 
 sample_list_out = ARp_resid_coint_test_gibbs_sampler(Yt=Yt,

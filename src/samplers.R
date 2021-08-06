@@ -10,7 +10,7 @@ ARp_resid_coint_test_gibbs_sampler = function(Yt,
   beta_list <- vector("list", npost)
   sigma_list <- vector("list", npost)
   phi_list <- vector("list", npost)
-  
+  pb = txtProgressBar(min = 0, max = npost)
   # Gibbs sampler
   for(h in 1:npost){
     if(h == 1){
@@ -78,6 +78,8 @@ ARp_resid_coint_test_gibbs_sampler = function(Yt,
     beta_list[[h]] <- beta_post
     phi_list[[h]] <- phi_post
     sigma_list[[h]] <- sigma_post
+    
+    setTxtProgressBar(pb, h)
     
   }
   return(list(beta_list=beta_list,
