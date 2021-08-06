@@ -25,7 +25,7 @@ gen_X_beta2 = function(phi_post,
                        delta_Xt,
                        t,
                        k) {
-  x_beta2 <- matrix(0, nrow = 2, ncol = (t-k))
+  x_beta2 <- matrix(0, nrow = k, ncol = (t-k))
   for(i in 1:(t-k)){
     aux <- 0
     
@@ -33,6 +33,7 @@ gen_X_beta2 = function(phi_post,
     for(j in 1:(k-1)){
       aux <-  aux + phi_post[(j+1)]*delta_Xt[,(i+k-j)]
     }
+    browser()
     x_beta2[,i] <- aux
   }
   return(x_beta2)
