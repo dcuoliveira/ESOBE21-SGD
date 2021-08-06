@@ -33,7 +33,6 @@ gen_X_beta2 = function(phi_post,
     for(j in 1:(k-1)){
       aux <-  aux + phi_post[(j+1)]*delta_Xt[,(i+k-j)]
     }
-    browser()
     x_beta2[,i] <- aux
   }
   return(x_beta2)
