@@ -10,7 +10,10 @@ ARp_resid_coint_test_gibbs_sampler = function(Yt,
   beta_list <- vector("list", npost)
   sigma_list <- vector("list", npost)
   phi_list <- vector("list", npost)
-  pb = txtProgressBar(min = 0, max = npost)
+  print(" Running ARp residual-based cointegration test")
+  pb = txtProgressBar(min = 0,
+                      max = npost,
+                      style = 3)
   # Gibbs sampler
   for(h in 1:npost){
     if(h == 1){
