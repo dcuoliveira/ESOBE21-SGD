@@ -1,5 +1,5 @@
 #Fazer bootstrap simulacao pra ver se o 1 vai estar no intervalo
-
+rm(list=ls())
 
 
 set.seed(4567)
