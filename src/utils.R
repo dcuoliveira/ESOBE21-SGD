@@ -2,52 +2,53 @@ library('padr')
 library('lubridate')
 library('zoo')
 
-gen_Y_rho_psi = function(phi_post,
+gen_Y_rho_psi = function(rho_xi_post,
                          Yt,
                          delta_Yt,
-                         t,
+                         T,
                          k){
-  y_beta2 <- matrix(0, nrow = 1, ncol = (t-k))
-  for(i in 1:(t-k)){
+  y_beta2 <- matrix(0, nrow = 1, ncol = (T-k))
+  for(t in 1:(T-k)){
     aux <- 0
-    aux <- phi_post[1]*Yt[(i+k-1)]
+    aux <- rho_xi_post[1]*Yt[(t+k-1)]
     for(j in 1:(k-1)){
-      aux <-  aux + phi_post[(j+1)]*delta_Yt[(i+k-j)]
+      aux <-  aux + rho_xi_post[(j+1)]*delta_Yt[(t+k-j)]
     }
     
-    y_beta2[,i] <- aux
+    y_beta2[,t] <- aux
   }
   return(y_beta2)
 }
 
-gen_X_beta2 = function(phi_post,
+gen_X_beta2 = function(rho_xi_post,
                        Xt,
                        delta_Xt,
-                       t,
-                       k) {
-  x_beta2 <- matrix(0, nrow = k, ncol = (t-k))
-  for(i in 1:(t-k)){
+                       T,
+                       k,
+                       n) {
+  x_beta2 <- matrix(0, nrow = n, ncol = (T-k))
+  for(t in 1:(T-k)){
     aux <- 0
-    
-    aux <- phi_post[1]*Xt[,(i+k-1)]
+    aux <- rho_xi_post[1]*Xt[,(t+k-1)]
     for(j in 1:(k-1)){
-      aux <-  aux + phi_post[(j+1)]*delta_Xt[,(i+k-j)]
+      aux <-  aux + rho_xi_post[(j+1)]*delta_Xt[,(t+k-j)]
     }
-    x_beta2[,i] <- aux
+    x_beta2[,t] <- aux
   }
   return(x_beta2)
 }
 
 gen_X_rho_xi = function(Rt,
                         delta_Rt,
+                        T,
                         k){
   #Creating X matrix
-  x_vec <- c(Rt[k:(t-1)])
+  x_vec <- c(Rt[k:(T-1)])
   for(i in k:2){
-    aux <- delta_Rt[i:(t+1-i)]
+    aux <- delta_Rt[i:(T+1-i)]
     x_vec <- c(x_vec,aux)
   }
-  return(matrix(x_vec, nrow = k, byrow = T))
+  return(matrix(x_vec, nrow = k, byrow = TRUE))
 }
 
 polycreate = function(x,
